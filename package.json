@@ -4,9 +4,9 @@
   "scripts": {
     "dev": "env-cmd -e dev node server.js",
     "prod": "env-cmd -e prod node server.js",
-    "build-dev": "env-cmd dev next build",
-    "build-prod": "env-cmd prod next build",
-    "start": "NODE_ENV=production node server.js"
+    "build-dev": "env-cmd -e dev next build",
+    "build-prod": "env-cmd -e prod next build",
+    "start": "NODE_ENV=production env-cmd -e prod node server.js"
   },
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
