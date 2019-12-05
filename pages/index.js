@@ -1,30 +1,86 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { startClock, serverRenderClock } from '../store'
-import Examples from '../components/examples'
+import Button from '../components/button'
+import Input from '../components/input'
+import '../css/styles.scss'
+import 'isomorphic-fetch'
 
 class Index extends React.Component {
-  static getInitialProps({ reduxStore, req }) {
-    const isServer = !!req
-    // DISPATCH ACTIONS HERE ONLY WITH `reduxStore.dispatch`
-    reduxStore.dispatch(serverRenderClock(isServer))
-
-    return {}
+  constructor() {
+    super()
+    this.state = {
+      base: '',
+      rate: '',
+      response: null
+    }
   }
 
-  componentDidMount() {
-    // DISPATCH ACTIONS HERE FROM `mapDispatchToProps`
-    // TO TICK THE CLOCK
-    this.timer = setInterval(() => this.props.startClock(), 1000)
+  handleChange = evt => {
+    this.setState({
+      [evt.target.name]: evt.target.value
+    })
+  }
+  changeResponseStatus = response => {
+    this.setState({ rate: response })
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer)
+  handleSubmit = evt => {
+    evt.preventDefault()
+    fetch('/convert', {
+      method: 'POST',
+      body: JSON.stringify({ base: this.state.base }),
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+    })
+      .then(response => response.json())
+      .then(data => this.changeResponseStatus(data))
+      .catch(error => console.log(error))
   }
 
+  renderResponse = () => (
+    <>
+      <a>{this.state.response}</a>
+    </>
+  )
+
+  renderInquiryForm = () => {
+    const { base, rate } = this.state
+    return (
+      <form onSubmit={this.handleSubmit} className="currency-exchange-form">
+        <div className="inputContainer">
+          <h4>Base</h4>
+          <Input
+            maxlength={15}
+            name={'base'}
+            id={'inp-base'}
+            placeholder={'EUR'}
+            value={base}
+            onChange={this.handleChange}
+          />
+        </div>
+        <div className="inputContainer">
+          <h4>Rate</h4>
+          <Input
+            maxlength={15}
+            name={'rate'}
+            id={'inp-rate'}
+            placeholder={'USD'}
+            value={rate}
+            onChange={this.handleChange}
+            disabled={true}
+          />
+        </div>
+        <Button text={'CALCULATE'} name={'btn-get-status'} disabled={!base} />
+      </form>
+    )
+  }
   render() {
-    return <Examples />
+    const { response } = this.state
+    return (
+      <div className="main-container">
+        {this.renderInquiryForm()}
+        {response && this.renderResponse()}
+      </div>
+    )
   }
 }
-const mapDispatchToProps = { startClock }
-export default connect(null, mapDispatchToProps)(Index)
+
+export default Index
