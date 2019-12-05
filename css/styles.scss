@@ -4,6 +4,7 @@ $gray: #444444;
 $gray-light: #979797;
 $gray-disabled: #bac0c5;
 $gray-banner: #dee5ec;
+$gray-header: #4b4f53;
 $font-family: 'Muli', sans-serif;
 $breakpoint-min-small: 'max-width: 575px';
 
@@ -18,10 +19,14 @@ h4 {
   padding: 0;
 }
 
+h1,
+h2 {
+  font-size: 20px;
+  color: $gray-disabled;
+}
+
 h1 {
   font-size: 26px;
-  color: $gray;
-  font-family: 'Cabin Condensed', sans-serif;
 }
 
 p {
@@ -82,7 +87,11 @@ p {
   width: 100%;
   overflow: hidden;
   flex-direction: column;
-
+  .tittleContainer {
+    height: 7rem;
+    display: flex;
+    align-items: center;
+  }
   .currency-exchange-form {
     @extend .flex-center-center;
     width: 100vw;
@@ -103,19 +112,42 @@ p {
     }
   }
   .historicPrice {
+    @extend .flex-center-center;
+    margin: 4rem 0;
     width: 100%;
-    .currenciesContainer {
-      width: 100%;
-      display: flex;
-      justify-content: space-evenly;
-      flex-direction: row;
-      @media ($breakpoint-min-small) {
-        flex-direction: column;
-      }
+    justify-content: space-evenly;
+    flex-direction: row;
+    @media ($breakpoint-min-small) {
+      flex-direction: column;
     }
-    .pricesContainer {
+    .currenciesSection {
+      width: 18rem;
+      align-items: center;
       display: flex;
       flex-direction: column;
+      .currencyContainer {
+        margin: 1rem;
+        .pricesContainer {
+          display: flex;
+          flex-direction: column;
+          padding-left: 1rem;
+          a {
+            background-color: $gray-banner;
+            border-radius: 10px;
+            padding: 0.2rem 1.5rem;
+            margin-bottom: 0.4rem;
+          }
+        }
+        h4 {
+          color: $gray-header;
+        }
+      }
+      .space {
+        height: 2.28rem;
+        @media ($breakpoint-min-small) {
+          display: none;
+        }
+      }
     }
   }
 }

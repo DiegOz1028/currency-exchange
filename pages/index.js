@@ -2,7 +2,6 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import Button from '../components/button'
 import Input from '../components/input'
-import MoneyFormat from '../utils/moneyFormat'
 import { connect } from 'react-redux'
 import constants from '../constants'
 import * as actions from '../store'
@@ -33,7 +32,6 @@ class Index extends React.Component {
   }
 
   handleChange = evt => {
-    // let newValue = MoneyFormat(evt.target.value);
     this.setState({
       [evt.target.name]: evt.target.value
     })
@@ -43,19 +41,15 @@ class Index extends React.Component {
     this.props.convertAmount(this.state.base, constants.currentCurrency)
   }
 
-  renderCurrencyPrices = currencies => (
-    <div>
+  renderCurrencyPrices = (currencies, tittle = false) => (
+    <div className="currenciesSection">
+      {tittle ? <h2>HISTORIC PRICE </h2> : <div className="space" />}
       {currencies.map(currency => {
         const currentCurrency = Object.keys(currency)[0]
         const prices = Object.values(currency)[0]
         return (
-          <div>
+          <div className="currencyContainer">
             <h4>{currentCurrency}</h4>
-            <div className="pricesContainer">
-              {Object.values(prices).map(value => (
-                <a>{value}</a>
-              ))}
-            </div>
             <div className="pricesContainer">
               {Object.values(prices).map(value => (
                 <a>{value}</a>
@@ -74,11 +68,8 @@ class Index extends React.Component {
     const LastFiveCurrencies = historicPrices.slice(5, 9)
     return (
       <div className="historicPrice">
-        <h1>HISTORIC PRICE </h1>
-        <div className="currenciesContainer">
-          {this.renderCurrencyPrices(FirstFiveCurrencies)}
-          {this.renderCurrencyPrices(LastFiveCurrencies)}
-        </div>
+        {this.renderCurrencyPrices(FirstFiveCurrencies, true)}
+        {this.renderCurrencyPrices(LastFiveCurrencies)}
       </div>
     )
   }
@@ -89,6 +80,7 @@ class Index extends React.Component {
       <div className="currency-exchange-form">
         <div className="fieldsContaner">
           <Input
+            type={'number'}
             maxlength={15}
             name={'base'}
             id={'inp-base'}
@@ -97,6 +89,7 @@ class Index extends React.Component {
             onChange={this.handleChange}
           />
           <Input
+            type={'number'}
             maxlength={15}
             name={'rate'}
             id={'inp-rate'}
@@ -117,6 +110,9 @@ class Index extends React.Component {
   render() {
     return (
       <div className="main-container">
+        <div className="tittleContainer">
+          <h1>CURRENCY EXCHANGE </h1>
+        </div>
         {this.renderInquiryForm()}
         {this.renderHistoricPrice()}
       </div>

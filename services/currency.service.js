@@ -39,16 +39,17 @@ module.exports = class CurrencyService {
     let arrayToReturn = []
 
     for (let index = 0; index < 3; index++) {
-      const date = moment()
-        .subtract(index, 'days')
-        .format('YYYY-MM-DD')
-      const response = await this.getData(date).catch(error => {
-        throw Error(error)
-      })
+      const date = moment().subtract(index, 'days')
+      const response = await this.getData(date.format('YYYY-MM-DD')).catch(
+        error => {
+          throw Error(error)
+        }
+      )
       const rates = response.rates
+      const day = !index ? 'Today' : date.format('dddd')
       let arrayToCompare = []
       Object.keys(rates).map(key =>
-        arrayToCompare.push({ [key]: { [index]: `${rates[key]}` } })
+        arrayToCompare.push({ [key]: { [index]: `${day}: ${rates[key]}` } })
       )
       const updatedResponse = await mergeResults(arrayToReturn, arrayToCompare)
       arrayToReturn = updatedResponse
