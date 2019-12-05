@@ -1,13 +1,20 @@
 {
-  "name": "with-redux",
-  "version": "1.0.0",
+  "name": "currency-exchange",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
+    "dev": "env-cmd -e dev node server.js",
+    "prod": "env-cmd -e prod node server.js",
+    "build-dev": "env-cmd dev next build",
+    "build-prod": "env-cmd prod next build",
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
+    "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1",
     "next": "latest",
+    "next-routes": "^1.4.2",
+    "node-sass": "^4.13.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^5.0.1",
@@ -15,5 +22,15 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-persist": "^5.10.0"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^3.1.0",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
 }
