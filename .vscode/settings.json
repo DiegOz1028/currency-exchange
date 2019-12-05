@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "git.ignoreLimitWarning": true,
+  "eslint.enable": false,
+  "jshint.enable": false,
+  "cSpell.words": ["Unmount", "devtools", "fundefir", "persistor", "prefetch"]
+}

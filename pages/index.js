@@ -10,7 +10,7 @@ class Index extends React.Component {
     this.state = {
       base: '',
       rate: '',
-      response: null
+      priceHistory: null
     }
   }
 
@@ -35,7 +35,7 @@ class Index extends React.Component {
       .catch(error => console.log(error))
   }
 
-  renderResponse = () => (
+  renderPriceHistory = () => (
     <>
       <a>{this.state.response}</a>
     </>
@@ -45,8 +45,7 @@ class Index extends React.Component {
     const { base, rate } = this.state
     return (
       <form onSubmit={this.handleSubmit} className="currency-exchange-form">
-        <div className="inputContainer">
-          <h4>Base</h4>
+        <div className="fieldsContaner">
           <Input
             maxlength={15}
             name={'base'}
@@ -55,9 +54,6 @@ class Index extends React.Component {
             value={base}
             onChange={this.handleChange}
           />
-        </div>
-        <div className="inputContainer">
-          <h4>Rate</h4>
           <Input
             maxlength={15}
             name={'rate'}
@@ -73,11 +69,11 @@ class Index extends React.Component {
     )
   }
   render() {
-    const { response } = this.state
+    const { priceHistory } = this.state
     return (
       <div className="main-container">
         {this.renderInquiryForm()}
-        {response && this.renderResponse()}
+        {priceHistory && this.renderPriceHistory()}
       </div>
     )
   }

@@ -13,13 +13,11 @@ module.exports = class CurrencyService {
     })
     return response
   }
-  async currencyExchange(base, rate) {
+  async currencyExchange(base, rateCurrency) {
     const response = await this.getData().catch(error => {
       throw Error(error)
     })
-    const rate = response.rates[rate]
+    const rate = response.rates[rateCurrency]
     return base * rate
   }
 }
-// http://data.fixer.io/api/latest?access_key=b3eb1bf9c8509bd64060fcee1a106454
-// http://data.fixer.io/api/2019-12-01?access_key=b3eb1bf9c8509bd64060fcee1a106454&format=1
