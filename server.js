@@ -15,9 +15,9 @@ app.prepare().then(() => {
   server.use(bodyParser.urlencoded({ extended: true }))
   server.use(bodyParser.json())
 
-  server.post('/latest', async (req, res, next) => {
+  server.get('/historic', async (req, res, next) => {
     try {
-      const response = await currency.getData()
+      const response = await currency.getHistoric()
       return res.json(response)
     } catch (error) {
       return next(error)
@@ -27,8 +27,10 @@ app.prepare().then(() => {
   server.post('/convert', async (req, res, next) => {
     try {
       delete req.body['g-recaptcha-response']
-      const base = req.body.base
-      const response = await currency.currencyExchange(base, 'USD')
+      const response = await currency.currencyExchange(
+        req.body.base,
+        req.body.currency
+      )
       return res.json(response)
     } catch (error) {
       return next(error)
