@@ -15,7 +15,7 @@
     "moment": "^2.24.0",
     "next": "latest",
     "next-routes": "^1.4.2",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "now": "^16.6.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
